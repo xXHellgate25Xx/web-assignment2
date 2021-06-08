@@ -183,9 +183,9 @@
                 <div class="info-box">
                     <?php if (isset($_SESSION['user_name'])) : ?>
                         <img class="responsive" src="../images/HinhUser2.png" height="280" alt="error">
-                    <?php else: ?>
+                    <?php else : ?>
                         <img class="responsive" src="../images/HinhUser.png" height="280" alt="error">
-                    <?php endif ?>
+                    <?php endif; ?>
                     <div class="p-info">
                         <?php if (isset($_SESSION['user_name'])) : ?>
                         <p>
@@ -195,12 +195,15 @@
                             <button type="button" class="btn btn-secondary" onclick="window.location.href='profile.php'">Profile</button>
                             <button type="button" class="btn btn-secondary" name="logoutBtn" onclick="window.location.href='?logoutBtn'">Logout</button>
                         </div>
-                        <?php else: ?>
+                        <?php else : ?>
+                        <p>
+                            You haven't Log in yet!
+                        </p>
                         <div class="btn-group" role="group" aria-label="Basic example">
                            <button type="button" class="btn btn-secondary" onclick="window.location.href='signup.php'">Sign up</button>
                             <button type="button" class="btn btn-secondary" onclick="window.location.href='login.php'">Login</button>
                         </div>
-                        <?php endif ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

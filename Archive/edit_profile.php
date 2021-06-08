@@ -1,4 +1,8 @@
-<?php require_once './user.php'; ?>
+<?php require_once './user.php'; 
+    if(!isset($_SESSION['user_name'])) {
+        header('location: index.php');
+    }
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +62,7 @@
         unset($_SESSION['edit_profile_success']);
         echo "
         <script>
-            setTimeout(function(){window.location.replace('index.php');}, 1500);
+            setTimeout(function(){window.location.replace('profile.php');}, 1500);
         </script>
         ";
     } 
@@ -67,7 +71,7 @@
 }
 ?>
 
-	<h4 class="card-title mt-3 text-center">Edit Profile for</h4>
+	<h4 class="card-title mt-3 text-center">Edit Profile for user: </h4>
     <h5 class="card-title mt-3 text-center"> <?php echo $_SESSION['user_name']; ?> </h5>
     <div> <?php echo $invalid_Account_Error; ?> </div>
 <form action=# method="POST" enctype="multipart/form-data">

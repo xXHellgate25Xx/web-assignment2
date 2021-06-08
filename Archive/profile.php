@@ -233,6 +233,7 @@
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-secondary" onclick="window.location.href='edit_profile.php'">Edit Profile</button>
                             <button type="button" class="btn btn-secondary" onclick="window.location.href='change_password.php'">Change Password</button>
+                            <button type="button" class="btn btn-secondary" onclick="window.location.href='index.php'">Back</button>
                         </div>
                         </div>
                 </div>

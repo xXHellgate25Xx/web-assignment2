@@ -23,6 +23,10 @@ $new_Pass_Error = "";
 $login_Username_Error = "";
 $login_Password_Error = "";
 
+$edit_FullName_Error = "";
+$edit_Email_Error = "";
+$edit_Phone_Error = "";
+
 
 if(isset($_POST['btnSignup'])) {
     $user_name = $_POST['signup_username'];
@@ -149,27 +153,22 @@ if (isset($_GET['logoutBtn'])) {
 }
 
 if (isset($_POST['editProfileBtn'])) {
-    unset($_SESSION['isChangePassword']);
-
     $full_name = $_POST['edit_fullname'];
     $email = $_POST['edit_email'];
     $phone = $_POST['edit_phone'];
 
     if ($full_name == "") {
-        $signup_FullName_Error = "Please fill in the blanks";
+        $edit_FullName_Error = "Please fill in the blanks";
     }
 
     $email_query = "SELECT * FROM users WHERE email='$email'";
     $result = mysqli_query($conn, $email_query);
     $user = mysqli_fetch_assoc($result);
     if ($email == "") {
-        $signup_Email_Error = "Please fill in the blanks";
+        $edit_Email_Error = "Please fill in the blanks";
     }
     else if(!preg_match("/^.*@.*\..*/i", $email)) {
-        $signup_Email_Error = "Email has to be in the form of sth@sth.sth.";
-    }
-    else if($user && $email != $_SESSION['email']) {
-        $signup_Email_Error = "This email has existed";
+        $edit_Email_Error = "Email has to be in the form of sth@sth.sth.";
     }
 
       
@@ -177,17 +176,14 @@ if (isset($_POST['editProfileBtn'])) {
     $result = mysqli_query($conn, $phone_query);
     $user = mysqli_fetch_assoc($result);
     if ($phone == "") {
-        $signup_Phone_Error = "Please fill in the blanks";
+        $edit_Phone_Error = "Please fill in the blanks";
     }
     else if(strlen($phone) < 10 || strlen($phone) > 11 || !preg_match("/[0-9]/", $phone)) {
-        $signup_Phone_Error = "Phone number should be 10 to 11 numbers in length and without spaces";
-    }
-    else if($user && $phone != $_SESSION['phone']) {
-        $signup_Phone_Error = "This phone number has existed";
+        $edit_Phone_Error = "Phone number should be 10 to 11 numbers in length and without spaces";
     }
 
 
-    if($signup_FullName_Error == "" && $signup_Email_Error=="" && $signup_Phone_Error == "" && $signupAddressError == "") {
+    if($signup_FullName_Error == "" && $signup_Email_Error=="" && $signup_Phone_Error == "") {
         $query = "UPDATE users SET fullname= '$full_name', email='$email', phone='$phone' WHERE username='$_SESSION[user_name]';";
         
         if (mysqli_query($conn, $query)) {
@@ -200,47 +196,40 @@ if (isset($_POST['editProfileBtn'])) {
             die($conn->error . __LINE__);
         }
     }
-    else {
-        $_SESSION['isEditProfile'] = "true";
-    }
 }
 
 if (isset($_POST['changePasswordBtn'])) {
-    unset($_SESSION['isUpdateProfile']);
-    $oldPass = $_POST['oldPassword'];
-    $newPass = $_POST['newPassword'];
+    $oldPass = $_POST['change_old_password'];
+    $newPass = $_POST['change_new_password'];
 
-    $username_query = "SELECT * FROM users WHERE user_name='$_SESSION[user_name]' AND password='$oldPass'";
+    $username_query = "SELECT * FROM users WHERE username='$_SESSION[user_name]' AND password='$oldPass'";
     $result = mysqli_query($conn, $username_query);
     $user = mysqli_fetch_assoc($result);
     if ($oldPass == "") {
-        $old_Pass_Error = "Vui lòng không bỏ trống.";
+        $old_Pass_Error = "Please fill in the blanks";
     }
-    else if(strlen($oldPass) < 5 || strlen($oldPass) > 15 || preg_match("/[ ]/", $oldPass)) {
-        $old_Pass_Error = "Mật khẩu phải chứa từ 5-15 ký tự và không chứa khoảng trắng.";
+    else if(strlen($oldPass) < 1 || strlen($oldPass) > 20 || preg_match("/[ ]/", $oldPass)) {
+        $old_Pass_Error = "Password has to have a length between 1 and 20 and without spaces";
     }
     else if(!$user) {
-        $old_Pass_Error = "Mật khẩu hiện tại không chính xác.";
+        $old_Pass_Error = "Wrong password, please retry";
     }
 
     if ($newPass == "") {
-        $new_Pass_Error = "Vui lòng không bỏ trống.";
+        $new_Pass_Error = "Please fill in the blanks";
     }
-    else if(strlen($newPass) < 5 || strlen($newPass) > 15 || preg_match("/[ ]/", $newPass)) {
-        $new_Pass_Error = "Mật khẩu phải chứa từ 5-15 ký tự và không chứa khoảng trắng.";
+    else if(strlen($newPass) < 1 || strlen($newPass) > 20 || preg_match("/[ ]/", $newPass)) {
+        $new_Pass_Error = "Password has to have a length between 1 and 20 and without spaces";
     }
 
     if($new_Pass_Error == "" && $old_Pass_Error=="") {
-        $query = "UPDATE users SET password= '$newPass' WHERE user_name='$_SESSION[user_name]';";
+        $query = "UPDATE users SET password= '$newPass' WHERE username='$_SESSION[user_name]';";
         if (mysqli_query($conn, $query)) {
-            $_SESSION['changePasswordSuccess'] = "true";
+            $_SESSION['change_password_success'] = "Successfully Changed Password";
             unset($_SESSION['isChangePassword']);
         } else {
             die($conn->error . __LINE__);
         }
-    }
-    else {
-        $_SESSION['isChangePassword'] = "true";
     }
 
 }
