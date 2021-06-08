@@ -1,4 +1,4 @@
-<?php require_once '../controller/user.php'; 
+<?php require_once './user.php'; 
     if(!isset($_SESSION['username'])) {
         // if(!isset($_SESSION['previous_location'])) {
         //     echo "run";
