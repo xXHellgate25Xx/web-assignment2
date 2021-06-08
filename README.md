@@ -5,4 +5,4 @@ Bài tập lớp môn lập trình web (HCMUT)
 - Create a database named: DB_asm2
 - No password
 - Run DB.sql
-
+- Run index.php in XAMPP
