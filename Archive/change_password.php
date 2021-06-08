@@ -74,12 +74,14 @@
 	<h4 class="card-title mt-3 text-center">Change Password for user:</h4>
     <h5 class="card-title mt-3 text-center"> <?php echo $_SESSION['user_name']; ?> </h5>
 <form action=# method="POST" enctype="multipart/form-data">
+    <div><?php echo $old_Password_Error;?></div>
     <div class="form-group input-group">
 		<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
 		 </div>
         <input name="change_old_password" class="form-control" placeholder="Old password" type="text">
     </div> <!-- form-group// -->
+    <div><?php echo $new_Password_Error;?></div>
     <div class="form-group input-group">
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
@@ -87,9 +89,9 @@
         <input name="change_new_password" class="form-control" placeholder="New password" type="text">
     </div> <!-- form-group// -->                      
     <div class="form-group">
-        <button name="changePasswordBtn" type="submit" class="btn btn-primary btn-block"> Change Password  </button>
+        <button name="BtnchangePassword" type="submit" class="btn btn-primary btn-block"> Change Password  </button>
     </div> <!-- form-group// -->      
-    <p class="text-center">Don't wish to change your password?<a href="profile.php">Cancel</a> </p>                                                                 
+    <p class="text-center">Don't wish to change your password? <a href="profile.php"> Cancel </a> </p>                                                                 
 </form>
 </article>
 </div> <!-- card.// -->

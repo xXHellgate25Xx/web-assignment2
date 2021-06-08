@@ -1,28 +1,28 @@
 <?php
 session_start();
-// session_destroy();
+
 $db_host = 'localhost';
 $db = 'DB_asm2';  
 $db_user = 'root';
 $db_password = '';
 
-$conn = new mysqli($db_host, $db_user, $db_password, $db);
-if ($conn->connect_error){
-    die("Fatal error");
+$connect = new mysqli($db_host, $db_user, $db_password, $db);
+if ($connect->connect_error){
+    die("Unable to connect to Database");
 }
-
+//For Sign Up
 $signup_UserName_Error = "";
 $signup_FullName_Error = "";
 $signup_Email_Error = "";
 $signup_Password_Error = "";
 $signup_Phone_Error = "";
 $invalid_Account_Error = "";
-$old_Pass_Error = "";
-$new_Pass_Error = "";
+$old_Password_Error = "";
+$new_Password_Error = "";
 
 $login_Username_Error = "";
 $login_Password_Error = "";
-
+//For Editing Profile
 $edit_FullName_Error = "";
 $edit_Email_Error = "";
 $edit_Phone_Error = "";
@@ -37,7 +37,7 @@ if(isset($_POST['btnSignup'])) {
     
 
     $username_query = "SELECT * FROM users WHERE username='$user_name'";
-    $result = mysqli_query($conn, $username_query);
+    $result = mysqli_query($connect, $username_query);
     $user = mysqli_fetch_assoc($result);
     //Check user_name
     if ($user_name == "") {
@@ -55,7 +55,7 @@ if(isset($_POST['btnSignup'])) {
     }
 
     $email_query = "SELECT * FROM users WHERE email='$email'";
-    $result = mysqli_query($conn, $email_query);
+    $result = mysqli_query($connect, $email_query);
     $user = mysqli_fetch_assoc($result);
     if ($email == "") {
         $signup_Email_Error = "Please fill in the blanks";
@@ -76,12 +76,12 @@ if(isset($_POST['btnSignup'])) {
     }
     
     $phone_query = "SELECT * FROM users WHERE phone='$phone'";
-    $result = mysqli_query($conn, $phone_query);
+    $result = mysqli_query($connect, $phone_query);
     $user = mysqli_fetch_assoc($result);
     if ($phone == "") {
         $signup_Phone_Error = "Please fill in the blanks";
     }
-    else if(strlen($phone) < 10 || strlen($phone) > 11 || !preg_match("/[0-9]/", $phone)) {
+    else if(strlen($phone) <= 9 || strlen($phone) >= 12 || !preg_match("/[0-9]/", $phone)) {
         $signup_Phone_Error = "Phone number has to be between 10 and 11 numbers";
     }
     else if($user) {
@@ -94,11 +94,11 @@ if(isset($_POST['btnSignup'])) {
         $create_time = new DateTime('now', new DateTimezone('Asia/Ho_Chi_Minh'));
         $create_time = $create_time->format("Y-m-d H:i:s");
         $query = "INSERT INTO users (username, fullname, email, phone, password, createtime) VALUES ('$user_name', '$full_name','$email', '$phone', '$password', '$create_time');";
-        if (mysqli_query($conn, $query)) {
+        if (mysqli_query($connect, $query)) {
             $_SESSION['signup_success'] = "Successfully Signed Up";
         }
         else {
-            die($conn->error . __LINE__);
+            die($connect->error.__LINE__);
         }
     }
 }
@@ -107,19 +107,19 @@ if(isset($_POST['btnLogin'])) {
     $user_name = $_POST['login_username'];
     $password = $_POST['login_password'];
     $username_query = "SELECT * FROM users WHERE username='$user_name' AND password='$password'";
-    $result = mysqli_query($conn, $username_query);
+    $result = mysqli_query($connect, $username_query);
     $user = mysqli_fetch_assoc($result);
     if ($user_name == "") {
         $login_Username_Error = "Please fill in the blanks";
     }
-    else if(strlen($user_name) < 1 || strlen($user_name) > 20 || preg_match("/[ ]/", $user_name)) {
+    else if(strlen($user_name) <= 0 || strlen($user_name) >= 21 || preg_match("/[ ]/", $user_name)) {
         $login_Username_Error = "Username has to have length between 1 and 20 characters and without spaces";
     }
 
     if ($password == "") {
         $login_Password_Error = "Please fill in the blanks";
     }
-    else if(strlen($password) < 1 || strlen($password) > 20 || preg_match("/[ ]/", $password)) {
+    else if(strlen($password) <= 0 || strlen($password) >= 21 || preg_match("/[ ]/", $password)) {
         $login_Password_Error = "Password has to have length between 1 and 20 characters and without spaces";
     }
 
@@ -140,7 +140,7 @@ if(isset($_POST['btnLogin'])) {
 
 }
 
-if (isset($_GET['logoutBtn'])) {
+if (isset($_GET['BtnLogout'])) {
     unset($_SESSION['user_name']);
     unset($_SESSION['full_name']);
     unset($_SESSION['email']);
@@ -152,7 +152,7 @@ if (isset($_GET['logoutBtn'])) {
     header('location: index.php');
 }
 
-if (isset($_POST['editProfileBtn'])) {
+if (isset($_POST['BtneditProfile'])) {
     $full_name = $_POST['edit_fullname'];
     $email = $_POST['edit_email'];
     $phone = $_POST['edit_phone'];
@@ -162,7 +162,7 @@ if (isset($_POST['editProfileBtn'])) {
     }
 
     $email_query = "SELECT * FROM users WHERE email='$email'";
-    $result = mysqli_query($conn, $email_query);
+    $result = mysqli_query($connect, $email_query);
     $user = mysqli_fetch_assoc($result);
     if ($email == "") {
         $edit_Email_Error = "Please fill in the blanks";
@@ -173,7 +173,7 @@ if (isset($_POST['editProfileBtn'])) {
 
       
     $phone_query = "SELECT * FROM users WHERE phone='$phone'";
-    $result = mysqli_query($conn, $phone_query);
+    $result = mysqli_query($connect, $phone_query);
     $user = mysqli_fetch_assoc($result);
     if ($phone == "") {
         $edit_Phone_Error = "Please fill in the blanks";
@@ -183,52 +183,50 @@ if (isset($_POST['editProfileBtn'])) {
     }
 
 
-    if($signup_FullName_Error == "" && $signup_Email_Error=="" && $signup_Phone_Error == "") {
+    if($edit_FullName_Error == "" && $edit_Email_Error=="" && $edit_Phone_Error == "") {
         $query = "UPDATE users SET fullname= '$full_name', email='$email', phone='$phone' WHERE username='$_SESSION[user_name]';";
         
-        if (mysqli_query($conn, $query)) {
+        if (mysqli_query($connect, $query)) {
             $_SESSION['full_name'] = $full_name;
             $_SESSION['email'] = $email;
             $_SESSION['phone'] = $phone;
             $_SESSION['edit_profile_success'] = "Successfully Edited";
-            unset($_SESSION['isEditProfile']);
         } else {
-            die($conn->error . __LINE__);
+            die($connect->error.__LINE__);
         }
     }
 }
 
-if (isset($_POST['changePasswordBtn'])) {
-    $oldPass = $_POST['change_old_password'];
-    $newPass = $_POST['change_new_password'];
+if (isset($_POST['BtnchangePassword'])) {
+    $old_Password = $_POST['change_old_password'];
+    $new_Password = $_POST['change_new_password'];
 
-    $username_query = "SELECT * FROM users WHERE username='$_SESSION[user_name]' AND password='$oldPass'";
-    $result = mysqli_query($conn, $username_query);
+    $username_query = "SELECT * FROM users WHERE username='$_SESSION[user_name]' AND password='$old_Password'";
+    $result = mysqli_query($connect, $username_query);
     $user = mysqli_fetch_assoc($result);
-    if ($oldPass == "") {
-        $old_Pass_Error = "Please fill in the blanks";
+    if ($old_Password == "") {
+        $old_Password_Error = "Please fill in the blanks";
     }
-    else if(strlen($oldPass) < 1 || strlen($oldPass) > 20 || preg_match("/[ ]/", $oldPass)) {
-        $old_Pass_Error = "Password has to have a length between 1 and 20 and without spaces";
+    else if(strlen($old_Password) <= 0 || strlen($old_Password) >= 21 || preg_match("/[ ]/", $old_Password)) {
+        $old_Password_Error = "Password has to have a length between 1 and 20 and without spaces";
     }
     else if(!$user) {
-        $old_Pass_Error = "Wrong password, please retry";
+        $old_Password_Error = "Wrong password, please retry";
     }
 
-    if ($newPass == "") {
-        $new_Pass_Error = "Please fill in the blanks";
+    if ($new_Password == "") {
+        $new_Password_Error = "Please fill in the blanks";
     }
-    else if(strlen($newPass) < 1 || strlen($newPass) > 20 || preg_match("/[ ]/", $newPass)) {
-        $new_Pass_Error = "Password has to have a length between 1 and 20 and without spaces";
+    else if(strlen($new_Password) <= 0 || strlen($new_Password) >= 21 || preg_match("/[ ]/", $new_Password)) {
+        $new_Password_Error = "Password has to have a length between 1 and 20 and without spaces";
     }
 
-    if($new_Pass_Error == "" && $old_Pass_Error=="") {
-        $query = "UPDATE users SET password= '$newPass' WHERE username='$_SESSION[user_name]';";
-        if (mysqli_query($conn, $query)) {
+    if($new_Password_Error == "" && $old_Password_Error=="") {
+        $query = "UPDATE users SET password= '$new_Password' WHERE username='$_SESSION[user_name]';";
+        if (mysqli_query($connect, $query)) {
             $_SESSION['change_password_success'] = "Successfully Changed Password";
-            unset($_SESSION['isChangePassword']);
         } else {
-            die($conn->error . __LINE__);
+            die($connect->error.__LINE__);
         }
     }
 

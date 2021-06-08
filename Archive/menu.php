@@ -193,7 +193,7 @@
                         </p>
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-secondary" onclick="window.location.href='profile.php'">Profile</button>
-                            <button type="button" class="btn btn-secondary" name="logoutBtn" onclick="window.location.href='?logoutBtn'">Logout</button>
+                            <button type="button" class="btn btn-secondary" name="logoutBtn" onclick="window.location.href='?BtnLogout'">Logout</button>
                         </div>
                         <?php else : ?>
                         <p>

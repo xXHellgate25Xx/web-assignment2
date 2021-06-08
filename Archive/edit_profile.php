@@ -76,30 +76,36 @@
     <div> <?php echo $invalid_Account_Error; ?> </div>
 <form action=# method="POST" enctype="multipart/form-data">
     <p> Old full name: <span style="font-weight:bold;"> <?php echo $_SESSION['full_name'];?> </span> </p>
+    <div><?php echo $edit_FullName_Error;?></div>
     <div class="form-group input-group">
 		<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
 		 </div>
         <input name="edit_fullname" class="form-control" placeholder="New full name" type="text">
     </div> <!-- form-group// -->
-    <p> Old email: <span style="font-weight:bold;"> <?php echo $_SESSION['email']; ?> </span </p>
+    
+    <p> Old email: <span style="font-weight:bold;"> <?php echo $_SESSION['email']; ?> </span> </p>
+    <div><?php echo $edit_Email_Error;?></div>
     <div class="form-group input-group">
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
 		</div>
         <input name="edit_email" class="form-control" placeholder="New email" type="text">
+        
     </div> <!-- form-group// -->
-    <p> Old phone number: <span style="font-weight:bold;"> <?php echo $_SESSION['phone']; ?> </span </p>
+    <p> Old phone number: <span style="font-weight:bold;"> <?php echo $_SESSION['phone']; ?> </span> </p>
+    <div><?php echo $edit_Phone_Error;?></div>
     <div class="form-group input-group">
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
 		</div>
         <input name="edit_phone" class="form-control" placeholder="New phone number" type="text">
+        
     </div> <!-- form-group// -->                                   
     <div class="form-group">
-        <button name="editProfileBtn" type="submit" class="btn btn-primary btn-block"> Edit Profile  </button>
+        <button name="BtneditProfile" type="submit" class="btn btn-primary btn-block"> Edit Profile  </button>
     </div> <!-- form-group// -->      
-    <p class="text-center">Don't wish to edit your profile?<a href="profile.php">Cancel</a> </p>                                                                 
+    <p class="text-center">Don't wish to edit your profile? <a href="profile.php"> Cancel </a> </p>                                                                 
 </form>
 </article>
 </div> <!-- card.// -->
