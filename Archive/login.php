@@ -70,7 +70,7 @@ else {
         </div>
     </div>
 	<h4 class="card-title mt-3 text-center">Log in</h4>
-    <div> <?php echo $invalidAccountError; ?> </div>
+    <div> <?php echo $invalid_Account_Error; ?> </div>
 <form action=# method="POST" enctype="multipart/form-data">
 	<div class="form-group input-group">
 		<div class="input-group-prepend">
