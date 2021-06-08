@@ -151,26 +151,25 @@ if (isset($_GET['logoutBtn'])) {
 if (isset($_POST['editProfileBtn'])) {
     unset($_SESSION['isChangePassword']);
 
-    $full_name = $_POST['update_name'];
-    $email = $_POST['update_email'];
-    $phone = $_POST['update_phone'];
-    $address = $_POST['update_address'];
+    $full_name = $_POST['edit_fullname'];
+    $email = $_POST['edit_email'];
+    $phone = $_POST['edit_phone'];
 
     if ($full_name == "") {
-        $signup_FullName_Error = "Vui lòng không bỏ trống.";
+        $signup_FullName_Error = "Please fill in the blanks";
     }
 
     $email_query = "SELECT * FROM users WHERE email='$email'";
     $result = mysqli_query($conn, $email_query);
     $user = mysqli_fetch_assoc($result);
     if ($email == "") {
-        $signup_Email_Error = "Vui lòng không bỏ trống.";
+        $signup_Email_Error = "Please fill in the blanks";
     }
     else if(!preg_match("/^.*@.*\..*/i", $email)) {
-        $signup_Email_Error = "Email phải đúng định dạng sth@sth.sth.";
+        $signup_Email_Error = "Email has to be in the form of sth@sth.sth.";
     }
     else if($user && $email != $_SESSION['email']) {
-        $signup_Email_Error = "Email đã tồn tại trên hệ thống.";
+        $signup_Email_Error = "This email has existed";
     }
 
       
@@ -178,31 +177,31 @@ if (isset($_POST['editProfileBtn'])) {
     $result = mysqli_query($conn, $phone_query);
     $user = mysqli_fetch_assoc($result);
     if ($phone == "") {
-        $signup_Phone_Error = "Vui lòng không bỏ trống.";
+        $signup_Phone_Error = "Please fill in the blanks";
     }
     else if(strlen($phone) < 10 || strlen($phone) > 11 || !preg_match("/[0-9]/", $phone)) {
-        $signup_Phone_Error = "Số điện thoại phải chứa từ 10-11 số và không chứa khoảng trắng.";
+        $signup_Phone_Error = "Phone number should be 10 to 11 numbers in length and without spaces";
     }
     else if($user && $phone != $_SESSION['phone']) {
-        $signup_Phone_Error = "Số điện thoại đã tồn tại trên hệ thống.";
+        $signup_Phone_Error = "This phone number has existed";
     }
 
 
     if($signup_FullName_Error == "" && $signup_Email_Error=="" && $signup_Phone_Error == "" && $signupAddressError == "") {
-        $query = "UPDATE users SET full_name= '$full_name', email='$email', phone='$phone', address='$address', imgUrl='$unique_image' WHERE user_name='$_SESSION[user_name]';";
+        $query = "UPDATE users SET fullname= '$full_name', email='$email', phone='$phone' WHERE username='$_SESSION[user_name]';";
         
         if (mysqli_query($conn, $query)) {
             $_SESSION['full_name'] = $full_name;
             $_SESSION['email'] = $email;
             $_SESSION['phone'] = $phone;
-            $_SESSION['updateProfileSuccess'] = "true";
-            unset($_SESSION['isUpdateProfile']);
+            $_SESSION['edit_profile_success'] = "Successfully Edited";
+            unset($_SESSION['isEditProfile']);
         } else {
             die($conn->error . __LINE__);
         }
     }
     else {
-        $_SESSION['isUpdateProfile'] = "true";
+        $_SESSION['isEditProfile'] = "true";
     }
 }
 

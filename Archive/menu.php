@@ -186,12 +186,13 @@
                     <?php else: ?>
                         <img class="responsive" src="../images/HinhUser.png" height="280" alt="error">
                     <?php endif ?>
-                    <?php if (isset($_SESSION['user_name'])) : ?>
+                    <div class="p-info">
+                        <?php if (isset($_SESSION['user_name'])) : ?>
                         <p>
                             Welcome <span style="font-weight:bold;"> <?php echo $_SESSION['user_name'];?> </span>
                         </p>
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-secondary">Profile</button>
+                            <button type="button" class="btn btn-secondary" onclick="window.location.href='profile.php'">Profile</button>
                             <button type="button" class="btn btn-secondary" name="logoutBtn" onclick="window.location.href='?logoutBtn'">Logout</button>
                         </div>
                         <?php else: ?>
@@ -200,6 +201,7 @@
                             <button type="button" class="btn btn-secondary" onclick="window.location.href='login.php'">Login</button>
                         </div>
                         <?php endif ?>
+                    </div>
                 </div>
             </div>
     </div>
