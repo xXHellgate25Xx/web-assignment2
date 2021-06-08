@@ -129,6 +129,7 @@ if(isset($_POST['btnLogin'])) {
             $_SESSION['email'] = $user['email'];
             $_SESSION['phone'] = $user['phone'];
             $_SESSION['createtime'] = $user['createtime'];
+            $_SESSION['login_success'] = 'Successfully Logged In';
         }
     }
     
@@ -141,6 +142,8 @@ if (isset($_GET['logoutBtn'])) {
     unset($_SESSION['email']);
     unset($_SESSION['phone']);
     unset($_SESSION['createtime']);
+    unset($_SESSION['login_success']);
+    unset($_SESSION['signup_success']);
     session_destroy();
     header('location: index.php');
 }

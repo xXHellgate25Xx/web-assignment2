@@ -32,27 +32,6 @@
 
 </head>
 
-<?php  
-if (isset($_SESSION['signup_success'])) {
-  echo "
-        <script>
-        $(document).ready(function(){
-            $('#signUpSuccess').notify('show');
-        });
-    </script>
-        ";
-      unset($_SESSION['signup_success']);
-      echo "
-      <script>
-          setTimeout(function(){window.location.replace('login.php');}, 1500);
-      </script>
-    ";
-} 
-else {
-  unset($_SESSION['signup_success']);
-}
-?>
-
 
 <div class="card bg-light">
 <article class="card-body mx-auto" style="max-width: 400px;">
@@ -63,11 +42,29 @@ else {
         </a>
     </div>
     </div>
-    <div class="notify" id="Successful">
-        <div class="card-title mt-3 text-center">
-            <p> You have successfully signed up </p>
+
+<?php 
+    if (isset($_SESSION['signup_success'])) {
+    echo '
+            <div class="notify" id="Successful">
+            <div class="card-title mt-3 text-center">
+                <div> You have successfully signed up </div>
+            </div>
         </div>
-    </div>
+            ';
+        unset($_SESSION['signup_success']);
+        echo "
+        <script>
+            setTimeout(function(){window.location.replace('login.php');}, 1500);
+        </script>
+        ";
+    } 
+else {
+  unset($_SESSION['signup_success']);
+}
+?>
+
+
 	<h4 class="card-title mt-3 text-center">Create Account</h4>
 <form action=# method="POST" enctype="multipart/form-data">
 	<div class="form-group input-group">
