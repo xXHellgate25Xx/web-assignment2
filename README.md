@@ -6,3 +6,7 @@ Bài tập lớp môn lập trình web (HCMUT)
 - No password
 - Run DB.sql
 - Run index.php in XAMPP
+
+## Thành viên
+- Đỗ Minh Tâm - 1813913
+- Nguyễn Nhất Phương - 1710247
