@@ -67,40 +67,44 @@ else {
 
 	<h4 class="card-title mt-3 text-center">Create Account</h4>
 <form action=# method="POST" enctype="multipart/form-data">
+    <div><?php echo $signup_UserName_Error;?></div>
 	<div class="form-group input-group">
 		<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
 		 </div>
         <input name="signup_username" class="form-control" placeholder="Username" type="text">
-        <div><?php echo $signup_UserName_Error;?></div>
+        
     </div> <!-- form-group// -->
+    <div><?php echo $signup_FullName_Error;?></div>
     <div class="form-group input-group">
 		<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
 		</div>
         <input name="signup_fullname" class="form-control" placeholder="Full name" type="text">
-        <div><?php echo $signup_FullName_Error;?></div>
+        
     </div> <!-- form-group// -->
+    <div><?php echo $signup_Email_Error;?></div>
     <div class="form-group input-group">
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
 		 </div>
         <input name="signup_email" class="form-control" placeholder="Email address" type="email">
-        <div><?php echo $signup_Email_Error;?></div>
+        
     </div> <!-- form-group// -->
+    <div><?php echo $signup_Phone_Error;?></div>
     <div class="form-group input-group">
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
 		</div>
     	<input name="signup_phone" class="form-control" placeholder="Phone number" type="text">
-        <div><?php echo $signup_Phone_Error;?></div>
+        
     </div> <!-- form-group// -->
+    <div><?php echo $signup_Password_Error;?></div>
     <div class="form-group input-group">
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
 		</div>
         <input name="signup_password" class="form-control" placeholder="Password" type="password">
-        <div><?php echo $signup_Password_Error;?></div>
     </div> <!-- form-group// -->                                
     <div class="form-group">
         <button name="btnSignup" type="submit" class="btn btn-primary btn-block"> Create Account  </button>

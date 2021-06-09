@@ -103,7 +103,7 @@
         
     </div> <!-- form-group// -->                                   
     <div class="form-group">
-        <button name="BtneditProfile" type="submit" class="btn btn-primary btn-block"> Edit Profile  </button>
+        <button name="BtnEditProfile" type="submit" class="btn btn-primary btn-block"> Edit Profile  </button>
     </div> <!-- form-group// -->      
     <p class="text-center">Don't wish to edit your profile? <a href="profile.php"> Cancel </a> </p>                                                                 
 </form>

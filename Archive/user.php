@@ -28,6 +28,56 @@ $edit_Email_Error = "";
 $edit_Phone_Error = "";
 
 
+
+if(isset($_POST['btnLogin'])) {
+    $user_name = $_POST['login_username'];
+    $password = $_POST['login_password'];
+    $username_query = "SELECT * FROM users WHERE username='$user_name' AND password='$password'";
+    $result = mysqli_query($connect, $username_query);
+    $user = mysqli_fetch_assoc($result);
+    if ($user_name == "") {
+        $login_Username_Error = "Please fill in the blanks";
+    }
+    else if(strlen($user_name) <= 0 || strlen($user_name) >= 21 || preg_match("/[ ]/", $user_name)) {
+        $login_Username_Error = "Username has to have length between 1 and 20 characters and without spaces";
+    }
+
+    if ($password == "") {
+        $login_Password_Error = "Please fill in the blanks";
+    }
+    else if(strlen($password) <= 0 || strlen($password) >= 21 || preg_match("/[ ]/", $password)) {
+        $login_Password_Error = "Password has to have length between 1 and 20 characters and without spaces";
+    }
+
+    if($login_Password_Error == "" && $login_Username_Error == "") {
+        if(!$user) {
+            $invalid_Account_Error = "Invalid Username or Password";
+        }
+        else {
+            $_SESSION['user_name'] = $user_name;
+            $_SESSION['full_name'] = $user['fullname'];
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['phone'] = $user['phone'];
+            $_SESSION['createtime'] = $user['createtime'];
+            $_SESSION['login_success'] = 'Successfully Logged In';
+        }
+    }
+    
+
+}
+
+if (isset($_GET['BtnLogout'])) {
+    unset($_SESSION['user_name']);
+    unset($_SESSION['full_name']);
+    unset($_SESSION['email']);
+    unset($_SESSION['phone']);
+    unset($_SESSION['createtime']);
+    unset($_SESSION['login_success']);
+    unset($_SESSION['signup_success']);
+    session_destroy();
+    header('location: index.php');
+}
+
 if(isset($_POST['btnSignup'])) {
     $user_name = $_POST['signup_username'];
     $full_name = $_POST['signup_fullname'];
@@ -103,56 +153,8 @@ if(isset($_POST['btnSignup'])) {
     }
 }
 
-if(isset($_POST['btnLogin'])) {
-    $user_name = $_POST['login_username'];
-    $password = $_POST['login_password'];
-    $username_query = "SELECT * FROM users WHERE username='$user_name' AND password='$password'";
-    $result = mysqli_query($connect, $username_query);
-    $user = mysqli_fetch_assoc($result);
-    if ($user_name == "") {
-        $login_Username_Error = "Please fill in the blanks";
-    }
-    else if(strlen($user_name) <= 0 || strlen($user_name) >= 21 || preg_match("/[ ]/", $user_name)) {
-        $login_Username_Error = "Username has to have length between 1 and 20 characters and without spaces";
-    }
 
-    if ($password == "") {
-        $login_Password_Error = "Please fill in the blanks";
-    }
-    else if(strlen($password) <= 0 || strlen($password) >= 21 || preg_match("/[ ]/", $password)) {
-        $login_Password_Error = "Password has to have length between 1 and 20 characters and without spaces";
-    }
-
-    if($login_Password_Error == "" && $login_Username_Error == "") {
-        if(!$user) {
-            $invalid_Account_Error = "Invalid Username or Password";
-        }
-        else {
-            $_SESSION['user_name'] = $user_name;
-            $_SESSION['full_name'] = $user['fullname'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['phone'] = $user['phone'];
-            $_SESSION['createtime'] = $user['createtime'];
-            $_SESSION['login_success'] = 'Successfully Logged In';
-        }
-    }
-    
-
-}
-
-if (isset($_GET['BtnLogout'])) {
-    unset($_SESSION['user_name']);
-    unset($_SESSION['full_name']);
-    unset($_SESSION['email']);
-    unset($_SESSION['phone']);
-    unset($_SESSION['createtime']);
-    unset($_SESSION['login_success']);
-    unset($_SESSION['signup_success']);
-    session_destroy();
-    header('location: index.php');
-}
-
-if (isset($_POST['BtneditProfile'])) {
+if (isset($_POST['BtnEditProfile'])) {
     $full_name = $_POST['edit_fullname'];
     $email = $_POST['edit_email'];
     $phone = $_POST['edit_phone'];
@@ -197,7 +199,7 @@ if (isset($_POST['BtneditProfile'])) {
     }
 }
 
-if (isset($_POST['BtnchangePassword'])) {
+if (isset($_POST['BtnChangePassword'])) {
     $old_Password = $_POST['change_old_password'];
     $new_Password = $_POST['change_new_password'];
 
